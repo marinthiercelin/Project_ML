@@ -19,13 +19,14 @@ def produce2DFigures(x,y,folder_path = '', save = False):
             path = folder_path + 'index'+str(i)+'/'
             if not os.path.exists(path):
                 os.makedirs(path)
-        for j in range(i+1,x.shape[1]):
-            make2DScatter(x,i,j,colors)
-            if(save):
-                plt.savefig(path + '2D_'+str(i)+'_'+str(j)+'.png')
-            else:
-                plt.show()
-            plt.gcf().clear()
+        for j in range(x.shape[1]):
+            if(not j == i):
+                make2DScatter(x,i,j,colors)
+                if(save):
+                    plt.savefig(path + '2D_'+str(i)+'_'+str(j)+'.png')
+                else:
+                    plt.show()
+                plt.gcf().clear()
 
 path = '/home/marin/Documents/Studies/EPFL_MA1/ML/Project_ML/firstProject/data/Figures/2D/'
 produce2DFigures(x,y,folder_path = path, save = True)
