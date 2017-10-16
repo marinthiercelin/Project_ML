@@ -15,7 +15,7 @@ def gradient_descent(y, tx, initial_w, max_iters, gamma):
     w = initial_w
     for n_iter in range(max_iters):
         gradient = compute_gradient(y,tx,w)
-        loss = compute_loss(y,tx,w)
+        loss = compute_mse(y,tx,w)
         w = w - gamma*gradient
         # store w and loss
         ws.append(w)
@@ -33,7 +33,7 @@ def stochastic_gradient_descent(y, tx, initial_w, batch_size, max_iters, gamma):
     for n_iter in range(max_iters):
         for batch_y, batch_tx in batch_iter(y,tx,30):
             gradient = compute_gradient(batch_y,batch_tx,w)
-            loss = compute_loss(batch_y,batch_tx,w)
+            loss = compute_mse(batch_y,batch_tx,w)
             w = w - gamma*gradient
             # store w and loss
             ws.append(w)
@@ -58,7 +58,7 @@ def compute_mae(y, tx, w):
     e = np.absolute(e)
     N = y.shape[0]
     return e.sum()/(N*1.0)
-    
+
 
 def least_squares(y, tx):
     """calculate the least squares solution."""
@@ -66,7 +66,7 @@ def least_squares(y, tx):
     gram = np.dot(xt,tx)
     ft = np.dot(xt,y)
     w = np.linalg.lstsq(gram, ft)[0]
-    loss = compute_loss(y,tx,w)
+    loss = compute_mse(y,tx,w)
     return loss, w
 
 def build_poly(x, degree):
