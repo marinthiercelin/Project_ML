@@ -1,4 +1,4 @@
-import Helpers.proj1_helpers as helper
+import Helpers.helpers as helper
 import Visualization.visu as visu
 import cleaner
 

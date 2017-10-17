@@ -1,6 +1,4 @@
-import sys
 import os
-# sys.path.insert(0, '../Helpers')
 import matplotlib.pyplot as plt
 
 def make2DScatter(x,i,j, colors):
