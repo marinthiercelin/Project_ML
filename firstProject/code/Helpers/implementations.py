@@ -145,8 +145,8 @@ def build_k_indices(y, k_fold, seed):
 
 def sigmoid(t):
     """apply sigmoid function on t."""
-    exp = np.exp(t)
-    return exp/(1+exp)
+    exp_inv = np.exp(-1.0*t)
+    return np.divide(1,1+exp_inv)
 
 # regular regression
 def calculate_loss(y, tx, w):
@@ -159,7 +159,12 @@ def calculate_loss(y, tx, w):
 
 def calculate_gradient(y, tx, w):
     """compute the gradient of loss."""
+    print("size tx is ", tx.shape)
+    print("w is ", w)
+    fx = np.dot(tx,w)
+    print("size fx is ", fx.shape)
     fx_sigma = sigmoid(np.dot(tx,w))
+    print("size sigma is ", fx_sigma.shape)
     mul = fx_sigma - y
     return np.dot(tx.T,mul)
 
@@ -193,37 +198,37 @@ def logistic_regression_sgd(y, tx, initial_w, batch_size, max_iters, gamma, seed
 
 #regularized logistic regression
 
-def reg_calculate_loss(y, tx, w):
+def reg_calculate_loss(y, tx, lambda_, w):
     """compute the cost by negative log likelihood."""
     return calculate_loss(y,tx,w) + (lambda_/2.0)*np.dot(w.T,w)
 
-def reg_calculate_gradient(y, tx, w):
+def reg_calculate_gradient(y, tx, lambda_, w):
     """compute the gradient of loss."""
     return calculate_gradient(y,tx,w) + (lambda_)*w
 
 
-def reg_logistic_regression_step(y, tx, w, gamma):
+def reg_logistic_regression_step(y, tx, lambda_, w, gamma):
     """
     Do one step of gradient descent using logistic regression.
     Return the loss and the updated w.
     """
-    grad = reg_calculate_gradient(y,tx,w)
+    grad = reg_calculate_gradient(y,tx, lambda_, w)
     w = w - gamma*grad
     return w
 
-def reg_logistic_regression(y, tx, initial_w, max_iters, gamma):
+def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     """Gradient descent algorithm."""
     w = initial_w
     for n_iter in range(max_iters):
-        w = reg_logistic_regression_step(y,tx,w,gamma)
-    loss = reg_calculate_loss(y,tx,w)
+        w = reg_logistic_regression_step(y,tx,lambda_,w,gamma)
+    loss = reg_calculate_loss(y, tx, lambda_, w)
     return loss, w
 
-def reg_logistic_regression_sgd(y, tx, initial_w, batch_size, max_iters, gamma, seed = 1):
+def reg_logistic_regression_sgd(y, tx, lambda_, initial_w, batch_size, max_iters, gamma, seed = 1):
     """Stochastic gradient descent algorithm."""
     w = initial_w
     for n_iter in range(max_iters):
         for batch_y, batch_tx in batch_iter(y,tx,batch_size, seed):
-            w = reg_logistic_regression_step(batch_y,batch_tx,w,gamma)
-    loss = reg_calculate_loss(y, tx, w)
+            w = reg_logistic_regression_step(batch_y,batch_tx,lambda_,w,gamma)
+    loss = reg_calculate_loss(y, tx, lambda_, w)
     return loss, w
