@@ -1,10 +1,7 @@
 import sys
 import os
-sys.path.insert(0, '/home/marin/Documents/Studies/EPFL_MA1/ML/Project_ML/firstProject/code/Helpers')
-import proj1_helpers as helper
+# sys.path.insert(0, '../Helpers')
 import matplotlib.pyplot as plt
-
-y,x, ids = helper.load_csv_data('/home/marin/Documents/Studies/EPFL_MA1/ML/Project_ML/firstProject/data/train.csv', True)
 
 def make2DScatter(x,i,j, colors):
     plt.scatter(x[:,i],x[:,j], c=colors)
@@ -27,6 +24,3 @@ def produce2DFigures(x,y,folder_path = '', save = False):
                 else:
                     plt.show()
                 plt.gcf().clear()
-
-path = '/home/marin/Documents/Studies/EPFL_MA1/ML/Project_ML/firstProject/data/Figures/2D/'
-produce2DFigures(x,y,folder_path = path, save = True)
