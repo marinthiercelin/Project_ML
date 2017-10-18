@@ -19,8 +19,8 @@ xCl = cleaner.addConstant(xCl)
 #parameters
 ratio = 0.8
 lambda_ = 0.5
-gamma = 0.008
-max_iters = 3
+gamma = 0.08
+max_iters = 500
 
 x_tr,y_tr,x_te,y_te = tool.split_data(xCl, y, ratio, seed=3)
 x_tr = cleaner.normalize_input(x_tr)
