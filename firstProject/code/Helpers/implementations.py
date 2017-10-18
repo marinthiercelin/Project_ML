@@ -151,21 +151,22 @@ def sigmoid(t):
 # regular regression
 def calculate_loss(y, tx, w):
     """compute the cost by negative log likelihood."""
-    fx_list = np.dot(tx,w)
-    fx_trans_1 = np.log(1 + np.exp(fx_list))
-    fx_trans_2 = np.multiply(y,fx_list)
-    res = fx_trans_1 - fx_trans_2
-    return res.sum()
+    fx = np.dot(tx,w)
+    fx_sigma = sigmoid(fx)
+    summ = 0
+    for ind, y_el in enumerate(y):
+            if(y == 1):
+                summ += fx_sigma[i]
+            elif(y == -1):
+                summ += 1 - fx_sigma[i]
+    return -1.0*summ 
 
 def calculate_gradient(y, tx, w):
     """compute the gradient of loss."""
-    print("size tx is ", tx.shape)
-    print("w is ", w)
     fx = np.dot(tx,w)
-    print("size fx is ", fx.shape)
     fx_sigma = sigmoid(np.dot(tx,w))
-    print("size sigma is ", fx_sigma.shape)
-    mul = fx_sigma - y
+    derivative = np.multiply(fx,(1 - fx))
+    mul = np.multiply(y,derivative)
     return np.dot(tx.T,mul)
 
 def logistic_regression_step(y, tx, w, gamma):
@@ -174,6 +175,8 @@ def logistic_regression_step(y, tx, w, gamma):
     Return the loss and the updated w.
     """
     grad = calculate_gradient(y,tx,w)
+    print("w is", w)
+    print("gradient is ", grad)
     w = w - gamma*grad
     return w
 
