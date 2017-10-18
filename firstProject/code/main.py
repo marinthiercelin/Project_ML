@@ -8,9 +8,13 @@ y,x, ids = helper.load_csv_data('../data/train.csv', False)
 
 path = '../data/Figures/2D/'
 xCl = cleaner.cleanFeatures(x)
-xCl = cleaner.fillMissingValues(xCl)
+print(xCl)
+print(y)
+xCl = cleaner.fillMissingValuesWithY(xCl,y)
 xCl = cleaner.addConstant(xCl)
 #visu.produce2DFigures(xCl,y,folder_path = path, save = True)
+
+
 
 #parameters
 ratio = 0.8
@@ -31,3 +35,19 @@ y_pred = helper.predict_labels(w,x_te)
 res = [(1 if(y_p == y_te[i]) else 0) for i,y_p in enumerate(y_pred)]
 
 print(np.array(res).sum()/(1.0*len(y_pred)))
+"""
+
+t = [[1.,2.,-999.],[2.,-999.,1.],[3.,1.,-999.],[2.,-999.,1.],[-999.,3.,2.]]
+y = [1.,1.,0.,0.,0.]
+y = np.array(y)
+t = np.array(t)
+
+print(t)
+print(y)
+tBis = cleaner.fillMissingValuesWithY(t,y)
+print(t)
+print(tBis)
+tTer = cleaner.fillMissingValuesWOY(t)
+print(t)
+print(tTer)
+"""
