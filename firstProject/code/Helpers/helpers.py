@@ -4,6 +4,7 @@ import csv
 import numpy as np
 
 
+
 def load_csv_data(data_path, sub_sample=False):
     """Loads data and returns y (class labels), tX (features) and ids (event ids)"""
     y = np.genfromtxt(data_path, delimiter=",", skip_header=1, dtype=str, usecols=1)
@@ -27,7 +28,8 @@ def load_csv_data(data_path, sub_sample=False):
 def predict_labels(weights, data):
     """Generates class predictions given weights, and a test data matrix"""
     y_pred = np.dot(data, weights)
-    y_pred[np.where(y_pred <= 0.5)] = -1 #modified this to fit the course formula
+    #y_pred = helper.sigmoid(y_pred)
+    y_pred[np.where(y_pred <= 0.5)] = 0 #modified this to fit the formula
     y_pred[np.where(y_pred > 0.5)] = 1
 
     return y_pred

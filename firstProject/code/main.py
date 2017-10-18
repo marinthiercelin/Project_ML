@@ -14,8 +14,8 @@ xCl = cleaner.addConstant(xCl)
 
 #parameters
 ratio = 0.8
-lambda_ = 0.1
-gamma = 0.1
+lambda_ = 0.8
+gamma = 0.8
 
 x_tr,y_tr,x_te,y_te = tool.split_data(xCl, y, ratio, seed=3)
 
