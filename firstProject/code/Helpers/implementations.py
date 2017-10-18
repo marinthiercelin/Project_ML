@@ -145,8 +145,10 @@ def build_k_indices(y, k_fold, seed):
 
 def sigmoid(t):
     """apply sigmoid function on t."""
-    exp_inv = np.exp(-1.0*t)
-    return np.divide(1,1+exp_inv)
+    # e_t = np.exp(t)
+    exp_inv = np.exp(-1.0 * t)
+    # return np.divide(e_t, 1 + e_t)
+    return np.divide(1, 1 + exp_inv)
 
 # regular regression
 def calculate_loss(y, tx, w):
@@ -159,14 +161,16 @@ def calculate_loss(y, tx, w):
 
 def calculate_gradient(y, tx, w):
     """compute the gradient of loss."""
-    print("size tx is ", tx.shape)
-    print("w is ", w)
+    # print("w is ", w)
+    # print("tx", tx)
     fx = np.dot(tx,w)
-    print("size fx is ", fx.shape)
     fx_sigma = sigmoid(np.dot(tx,w))
-    print("size sigma is ", fx_sigma.shape)
+    # print("fx_sigma", fx_sigma)
     mul = fx_sigma - y
-    return np.dot(tx.T,mul)
+    # print("mul", mul)
+    save = np.dot(tx.T,mul)
+    # print("save", save)
+    return save
 
 def logistic_regression_step(y, tx, w, gamma):
     """

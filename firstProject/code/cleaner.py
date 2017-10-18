@@ -13,3 +13,10 @@ def fillMissingValues(x):
 def addConstant(x):
     np.c_[np.ones((x.shape[0], 1)), x]
     return x
+
+
+def normalize_input(x):
+    means = np.mean(x, 0)
+    stds = np.std(x, 0)
+
+    return (x - means)/stds

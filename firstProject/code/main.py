@@ -14,13 +14,17 @@ xCl = cleaner.addConstant(xCl)
 
 #parameters
 ratio = 0.8
-lambda_ = 0.8
-gamma = 0.8
+lambda_ = 0.5
+gamma = 0.008
+max_iters = 3
 
 x_tr,y_tr,x_te,y_te = tool.split_data(xCl, y, ratio, seed=3)
+x_tr = cleaner.normalize_input(x_tr)
+x_te = cleaner.normalize_input(x_te)
 
-initial_w = np.array(x_tr.shape[1]*[0])
-loss_tr_1, w = tool.reg_logistic_regression(y_tr, x_tr, lambda_, initial_w, 50, gamma)
+
+initial_w = np.array(x_tr.shape[1]*[0]) #maybe randomize
+loss_tr_1, w = tool.reg_logistic_regression(y_tr, x_tr, lambda_, initial_w, max_iters, gamma)
 
 y_pred = helper.predict_labels(w,x_te)
 
