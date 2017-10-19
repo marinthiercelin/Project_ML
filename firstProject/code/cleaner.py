@@ -36,7 +36,7 @@ def fillMissingValuesWOY(tx):
     return x
 
 def addConstant(x):
-    np.c_[np.ones((x.shape[0], 1)), x]
+    x = np.c_[np.ones((x.shape[0], 1)), x]
     return x
 
 

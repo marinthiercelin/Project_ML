@@ -4,16 +4,19 @@ import Visualization.visu as visu
 import cleaner
 import numpy as np
 
-y,x, ids = helper.load_csv_data('../data/train.csv', False)
+y,x, ids = helper.load_csv_data('../data/train.csv', True)
 
-path = '../data/Figures/2D/'
+path = '../data/Figures/1DwithDeg/'
 xCl = cleaner.cleanFeatures(x)
 xCl = cleaner.fillMissingValuesWithY(xCl,y)
-xCl = cleaner.normalize_input(xCl)
-xCl = cleaner.addConstant(xCl)
+#xCl = cleaner.normalize_input(xCl)
+#xCl = cleaner.addConstant(xCl)
 
-#visu.produce2DFigures(xCl,y,folder_path = path, save = True)
+#degrees = [2]
 
+visu.produce1DFiguresWithLinearRegression(xCl,y,path, degrees)
+
+"""
 #parameters
 ratio = 0.8
 lambda_ = 0.1
@@ -44,3 +47,4 @@ xCl_s = cleaner.addConstant(xCl_s)
 y_pred_s = helper.predict_labels(w,xCl_s)
 
 helper.create_csv_submission(ids_s, y_pred_s, name="../data/subm1.csv")
+"""

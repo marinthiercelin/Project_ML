@@ -93,6 +93,9 @@ def least_squares(y, tx):
 
 #####################################################################
 
+def build_poly(x, degree):
+    """polynomial basis functions for input data x, for j=0 up to j=degree."""
+    return np.array([[np.power(xi,n) for n in range(degree + 1)] for xi in x])
 
 #used to have train and test set
 
