@@ -12,12 +12,12 @@ def fillMissingValuesWithY(tx,y):
         counts = np.zeros(2)
         for j in range(x.shape[0]):
             if x[j][i] != -999:
-                means[int(y[j])] += x[j][i]
-                counts[int(y[j])] += 1
+                means[(1 if(y[j] == 1) else 0)] += x[j][i]
+                counts[(1 if(y[j] == 1) else 0)] += 1
         means = means/counts
         for j in range(x.shape[0]):
             if x[j][i] == -999:
-                x[j][i] = means[int(y[j])]
+                x[j][i] = means[(1 if(y[j] == 1) else 0)]
     return x
 
 def fillMissingValuesWOY(tx):
