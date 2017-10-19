@@ -1,7 +1,8 @@
 #perso file
 
 /firstProject/data/*.csv
-/firstProject/data/Figures/2D/*
+/firstProject/data/Figures/
+
 
 #python generic
 

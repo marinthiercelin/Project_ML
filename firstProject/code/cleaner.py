@@ -12,12 +12,12 @@ def fillMissingValuesWithY(tx,y):
         counts = np.zeros(2)
         for j in range(x.shape[0]):
             if x[j][i] != -999:
-                means[int(y[j])] += x[j][i]
-                counts[int(y[j])] += 1
+                means[(1 if(y[j] == 1) else 0)] += x[j][i]
+                counts[(1 if(y[j] == 1) else 0)] += 1
         means = means/counts
         for j in range(x.shape[0]):
             if x[j][i] == -999:
-                x[j][i] = means[int(y[j])]
+                x[j][i] = means[(1 if(y[j] == 1) else 0)]
     return x
 
 def fillMissingValuesWOY(tx):
@@ -36,7 +36,7 @@ def fillMissingValuesWOY(tx):
     return x
 
 def addConstant(x):
-    np.c_[np.ones((x.shape[0], 1)), x]
+    x = np.c_[np.ones((x.shape[0], 1)), x]
     return x
 
 
@@ -45,3 +45,13 @@ def normalize_input(x):
     stds = np.std(x, 0)
 
     return (x - means)/stds
+
+
+def filter_bad_samples(x, freedom=0.2):
+    """removes all samples from x that have a percentage
+    of unknown features that is greater or equal to freedom%"""
+
+    D = x.shape[1]
+    max_bad = int(D * freedom)
+
+    return xCl[(xCl < -900).sum(axis=1) < max_bad]
