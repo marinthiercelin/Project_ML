@@ -6,13 +6,14 @@ import numpy as np
 
 y,x, ids = helper.load_csv_data('../data/train.csv', True)
 
-path = '../data/Figures/1DwithDeg/'
-xCl = cleaner.fillMissingValuesMedianWithY(xCl,y)
-#xCl = cleaner.normalize_input(xCl)
-#xCl = cleaner.addConstant(xCl)
+path = '../data/Figures/2DWO/'
 
+#visu.produce2DFiguresWOMissing(x,y, path)
+
+"""
 #degrees = [2]
 #visu.produce1DFiguresWithLinearRegression(xCl,y,path, degrees)
+
 
 
 #parameters
