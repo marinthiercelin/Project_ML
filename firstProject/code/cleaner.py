@@ -22,12 +22,12 @@ def fillMissingValuesWithY(tx,y):
 
 def fillMissingValuesMedianWithY(tx,y):
     x = np.copy(tx)
-    x0 = x[np.where(y == -1)]
+    x0 = x[np.where(y == 0)]
     x1 = x[np.where(y == 1)]
     for i in range(x.shape[1]):
         med = [np.median(x0[np.where(x0[:,i] != -999)][:,i]), np.median(x1[np.where(x1[:,i] != -999)][:,i])]
         for j in range(x.shape[0]):
-            if y[j] == -1 and x[j,i] == -999:
+            if y[j] == 0 and x[j,i] == -999:
                 x[j,i] = med[0]
             if y[j] == 1 and x[j,i] == -999:
                 x[j,i] = med[1]
