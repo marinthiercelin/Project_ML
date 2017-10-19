@@ -14,7 +14,7 @@ def load_csv_data(data_path, sub_sample=False):
 
     # convert class labels from strings to binary (-1,1)
     yb = np.ones(len(y))
-    yb[np.where(y=='b')] = 0 #modified this to fit the course formula
+    yb[np.where(y=='b')] = -1 #modified this to fit the course formula
 
     # sub-sample
     if sub_sample:
@@ -25,13 +25,17 @@ def load_csv_data(data_path, sub_sample=False):
     return yb, input_data, ids
 
 
+def sigmoid(t):
+    """apply sigmoid function on t."""
+    exp_inv = np.exp(-1.0*t)
+    return np.divide(1,1+exp_inv)
+
 def predict_labels(weights, data):
     """Generates class predictions given weights, and a test data matrix"""
     y_pred = np.dot(data, weights)
-    #y_pred = helper.sigmoid(y_pred)
-    y_pred[np.where(y_pred <= 0.5)] = 0 #modified this to fit the formula
+    y_pred = sigmoid(y_pred)
+    y_pred[np.where(y_pred <= 0.5)] = -1 #modified this to fit the formula
     y_pred[np.where(y_pred > 0.5)] = 1
-
     return y_pred
 
 
