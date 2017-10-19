@@ -20,6 +20,10 @@ def fillMissingValuesWithY(tx,y):
                 x[j][i] = means[int(y[j])]
     return x
 
+def fillMissingValuesWithY(tx,y):
+    x = np.copy(tx)
+    
+
 def fillMissingValuesWOY(tx):
     x = np.copy(tx)
     for i in range(x.shape[1]):
