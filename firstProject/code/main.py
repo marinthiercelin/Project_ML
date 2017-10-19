@@ -7,16 +7,14 @@ import numpy as np
 y,x, ids = helper.load_csv_data('../data/train.csv', True)
 
 path = '../data/Figures/1DwithDeg/'
-xCl = cleaner.cleanFeatures(x)
-xCl = cleaner.fillMissingValuesWithY(xCl,y)
+xCl = cleaner.fillMissingValuesMedianWithY(xCl,y)
 #xCl = cleaner.normalize_input(xCl)
 #xCl = cleaner.addConstant(xCl)
 
 #degrees = [2]
+#visu.produce1DFiguresWithLinearRegression(xCl,y,path, degrees)
 
-visu.produce1DFiguresWithLinearRegression(xCl,y,path, degrees)
 
-"""
 #parameters
 ratio = 0.8
 lambda_ = 0.1
@@ -47,4 +45,3 @@ xCl_s = cleaner.addConstant(xCl_s)
 y_pred_s = helper.predict_labels(w,xCl_s)
 
 helper.create_csv_submission(ids_s, y_pred_s, name="../data/subm1.csv")
-"""

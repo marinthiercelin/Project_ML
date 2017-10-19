@@ -1,8 +1,8 @@
 import os
 import matplotlib.pyplot as plt
 import sys
-sys.path.insert(0, '/home/marin/Documents/Studies/EPFL_MA1/ML/Project_ML/firstProject/code/Helpers')
-import implementations as tools
+#sys.path.insert(0, '/home/marin/Documents/Studies/EPFL_MA1/ML/Project_ML/firstProject/code/Helpers')
+#import implementations as tools
 import numpy as np
 
 def make2DScatter(x,i,j, colors):

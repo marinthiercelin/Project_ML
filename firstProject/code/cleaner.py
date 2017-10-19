@@ -20,11 +20,28 @@ def fillMissingValuesWithY(tx,y):
                 x[j][i] = means[(1 if(y[j] == 1) else 0)]
     return x
 
-def fillMissingValuesWithY(tx,y):
+def fillMissingValuesMedianWithY(tx,y):
     x = np.copy(tx)
-    
+    x0 = x[np.where(y == -1)]
+    x1 = x[np.where(y == 1)]
+    for i in range(x.shape[1]):
+        med = [np.median(x0[np.where(x0[:,i] != -999)][:,i]), np.median(x1[np.where(x1[:,i] != -999)][:,i])]
+        for j in range(x.shape[0]):
+            if y[j] == -1 and x[j,i] == -999:
+                x[j,i] = med[0]
+            if y[j] == 1 and x[j,i] == -999:
+                x[j,i] = med[1]
+    return x
 
-def fillMissingValuesWOY(tx):
+def fillMissingValuesMedianWOY(tx):
+    x = np.copy(tx)
+    for i in range(x.shape[1]):
+        m = x[:,i][np.where(x[:,i] != -999)]
+        med = np.median(m)
+        x[:,i][np.where(x[:,i] == -999)] = med
+    return x
+
+def fillMissingValuesMedianWOY(tx):
     x = np.copy(tx)
     for i in range(x.shape[1]):
         mean = 0
