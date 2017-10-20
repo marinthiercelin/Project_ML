@@ -6,9 +6,13 @@ import numpy as np
 
 y,x, ids = helper.load_csv_data('../data/train.csv', True)
 
-path = '../data/Figures/2DWO/'
+path = '../data/Figures/1DWOWLR/'
 
-#visu.produce2DFiguresWOMissing(x,y, path)
+xCl = cleaner.fillMissingValuesMedianWithY(x,y)
+xCl = cleaner.outliersToMedian(x)
+#xCl = cleaner.normalize_input(x)
+
+visu.produce1DFiguresWithLinearRegressionWOMissing(x,y, path, degrees=[1])
 
 """
 #degrees = [2]
@@ -46,3 +50,4 @@ xCl_s = cleaner.addConstant(xCl_s)
 y_pred_s = helper.predict_labels(w,xCl_s)
 
 helper.create_csv_submission(ids_s, y_pred_s, name="../data/subm1.csv")
+"""
