@@ -25,12 +25,12 @@ def load_csv_data(data_path, sub_sample=False):
     return yb, input_data, ids
 
 def changeYtoBinary(y):
-    res = y
+    res = np.array(y)
     res[np.where(y == -1)] = 0
     return res
 
 def changeYfromBinary(y):
-    res = y
+    res = np.array(y)
     res[np.where(y == 0)] = -1
     return res
 

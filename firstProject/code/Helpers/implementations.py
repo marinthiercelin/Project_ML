@@ -155,8 +155,8 @@ def sigmoid(t):
 def calculate_loss(y, tx, w):
     """compute the cost by negative log likelihood."""
     loss = 0
-    for index, y_el in enumerate(y_el):
-        fx = np.dot(tx[ind],w)
+    for index, y_el in enumerate(y):
+        fx = np.dot(tx[index],w)
         sigma = sigmoid(fx)
         if (y_el == 1) :
             loss += np.log(sigma)
