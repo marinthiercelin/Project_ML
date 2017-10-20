@@ -59,4 +59,10 @@ def main2(subSample = False, trainPath = '../data/train.csv', testPath = '../dat
     print(np.array(res).sum()/(1.0*len(y_pred)))
     print("loss ", loss)
 
-main2(subSample=True)
+def main3(subSample = False, trainPath = '../data/train.csv', testPath = '../data/test.csv', submissionPath = '../data/subm1.csv'):
+    path = '../data/Figures/2Dtreated/'
+    y, x, ids = helper.load_csv_data(trainPath, subSample)
+    yCl,xCl = treatData(x, True, y)
+    visu.produce2DFiguresWOMissing(x, y, path)
+
+main3(subSample=True)
