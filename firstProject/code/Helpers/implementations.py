@@ -153,16 +153,11 @@ def sigmoid(t):
 
 # regular regression
 def calculate_loss(y, tx, w):
-    """compute the cost by negative log likelihood."""
-    loss = 0
-    for index, y_el in enumerate(y):
-        fx = np.dot(tx[index],w)
-        sigma = sigmoid(fx)
-        if (y_el == 1) :
-            loss += np.log(sigma)
-        else:
-            loss += np.log(1 - sigma)
-    return -1.0*loss
+    fx_list = np.dot(tx,w)
+    fx_trans_1 = np.log(1 + np.exp(fx_list))
+    fx_trans_2 = np.multiply(y,fx_list)
+    res = fx_trans_1 - fx_trans_2
+    return -1*res.sum()
 
 def calculate_gradient(y, tx, w):
     """compute the gradient of loss."""
@@ -176,6 +171,7 @@ def logistic_regression_step(y, tx, w, gamma):
     Return the loss and the updated w.
     """
     grad = calculate_gradient(y,tx,w)
+    print("grad",grad)
     w = w - gamma*grad
     return w
 
@@ -184,6 +180,7 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
     w = initial_w
     for n_iter in range(max_iters):
         w = logistic_regression_step(y,tx,w,gamma)
+        print("w",w)
     loss = calculate_loss(y,tx,w)
     return loss, w
 
@@ -223,6 +220,11 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     w = initial_w
     for n_iter in range(max_iters):
         w = reg_logistic_regression_step(y,tx,lambda_,w,gamma)
+        """if(n_iter % (max_iters/10) == 0):
+            loss = reg_calculate_loss(y, tx, lambda_, w)
+            print(n_iter," loss ",loss)
+            print(n_iter," w ", w)"""
+
     loss = reg_calculate_loss(y, tx, lambda_, w)
     return loss, w
 

@@ -121,3 +121,82 @@ def produce1DFiguresWithLinearRegressionWOMissing(x,y, folder_path, degrees):
             plt.savefig(folder_path + 'i='+str(i)+'d='+str(deg)+'.png')
             plt.gcf().clear()
             print("w ", i ,deg, w)
+
+
+def produce2DWithBoundary(y,x,folder_path):
+    colors = [ ('b' if(yel == 1) else 'r') for yel in y]
+    #parameters
+    gamma = 0.1
+    initial_w = [0,0]
+    for i in range(2,x.shape[1]):
+        path = folder_path + 'index'+str(i)+'/'
+        if not os.path.exists(path):
+            os.makedirs(path)
+        x_i = x[:,i]
+        ind_1 = np.where(x_i != -999)
+        for j in range(x.shape[1]):
+            if(not j == i):
+                x_j = x[:, j]
+                ind_2 = np.where(x_j != -999)
+                rest = np.intersect1d(ind_1,ind_2)
+                x_i_j = x_i[rest]
+                x_j = x_j[rest]
+                tx = np.c_[x_i_j,x_j]
+                logistic_regression_gradient_descent_demo(y[rest],tx,i,j,path)
+                plt.gcf().clear()
+
+def logistic_regression_gradient_descent_demo(y, x,i,j,folder_path):
+    # init parameters
+    max_iter = 1000
+    gamma = 0.02
+    losses = []
+
+    # build tx
+    tx = np.c_[np.ones((y.shape[0], 1)), x]
+    w = np.array(tx.shape[1]*[0])
+
+    # start the logistic regression
+    loss, w = tools.logistic_regression(y,tx,w, max_iter, gamma)
+    # visualization
+    show2DBoundary(y, x, i, j, w, folder_path + "i=" + str(i) + "j=" + str(j))
+
+def show2DBoundary(y, x,i,j, w, save_name):
+    """visualize the raw data as well as the classification result."""
+    fig = plt.figure()
+    # plot raw data
+    ax1 = fig.add_subplot(1, 2, 1)
+    males = np.where(y == 1)
+    females = np.where(y == 0)
+    ax1.scatter(
+        x[males, 0], x[males, 1],
+        marker='.', color=[0.06, 0.06, 1], s=20)
+    ax1.scatter(
+        x[females, 0], x[females, 1],
+        marker='*', color=[1, 0.06, 0.06], s=20)
+    ax1.set_xlabel("x["+str(i)+"]")
+    ax1.set_ylabel("x["+str(j)+"]")
+    ax1.grid()
+    # plot raw data with decision boundary
+    ax2 = fig.add_subplot(1, 2, 2)
+    height = np.arange(
+        np.min(x[:, 0]), np.max(x[:, 0]) +0.01, step=0.01)
+    weight = np.arange(
+        np.min(x[:, 1]), np.max(x[:, 1]) + 0.01, step=0.01)
+    hx, hy = np.meshgrid(height, weight)
+    hxy = (np.c_[hx.reshape(-1), hy.reshape(-1)])
+    x_temp = np.c_[np.ones((hxy.shape[0], 1)), hxy]
+    prediction = x_temp.dot(w) > 0.5
+    prediction = prediction.reshape((weight.shape[0], height.shape[0]))
+    ax2.contourf(hx, hy, prediction, 1)
+    ax2.scatter(
+        x[males, 0], x[males, 1],
+        marker='.', color=[0.06, 0.06, 1], s=20)
+    ax2.scatter(
+        x[females, 0], x[females, 1],
+        marker='*', color=[1, 0.06, 0.06], s=20)
+    ax2.set_xlabel("x["+str(i)+"]")
+    ax2.set_ylabel("x["+str(j)+"]")
+    ax2.set_xlim([min(x[:, 0]), max(x[:, 0])])
+    ax2.set_ylim([min(x[:, 1]), max(x[:, 1])])
+    plt.tight_layout()
+    plt.savefig(save_name)

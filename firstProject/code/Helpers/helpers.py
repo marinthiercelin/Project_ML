@@ -42,7 +42,7 @@ def sigmoid(t):
 def predict_labels(weights, data):
     """Generates class predictions given weights, and a test data matrix"""
     y_pred = np.dot(data, weights)
-    y_pred = sigmoid(y_pred)
+    #y_pred = sigmoid(y_pred)
     y_pred[np.where(y_pred <= 0.5)] = 0 #modified this to fit the formula
     y_pred[np.where(y_pred > 0.5)] = 1
     return y_pred
