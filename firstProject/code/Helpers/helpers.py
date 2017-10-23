@@ -6,7 +6,7 @@ import numpy as np
 
 
 def load_csv_data(data_path, sub_sample=False):
-    """Loads data and returns y (class labels), tX (features) and ids (event ids)"""
+    """Loads data and returns y (class labels), tX (features) and ids (event ids)."""
     y = np.genfromtxt(data_path, delimiter=",", skip_header=1, dtype=str, usecols=1)
     x = np.genfromtxt(data_path, delimiter=",", skip_header=1)
     ids = x[:, 0].astype(np.int)
@@ -25,11 +25,13 @@ def load_csv_data(data_path, sub_sample=False):
     return yb, input_data, ids
 
 def changeYtoBinary(y):
+    """Map all -1 in Y to 0 and keep the other at 1."""
     res = y
     res[np.where(y == -1)] = 0
     return res
 
 def changeYfromBinary(y):
+    """Map all 0 in Y to -1 and keep the other at 1."""
     res = y
     res[np.where(y == 0)] = -1
     return res
@@ -40,7 +42,7 @@ def sigmoid(t):
     return np.divide(1,1+exp_inv)
 
 def predict_labels(weights, data):
-    """Generates class predictions given weights, and a test data matrix"""
+    """Generates class predictions given weights, and a test data matrix."""
     y_pred = np.dot(data, weights)
     y_pred = sigmoid(y_pred)
     y_pred[np.where(y_pred <= 0.5)] = 0 #modified this to fit the formula
