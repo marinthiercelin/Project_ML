@@ -154,10 +154,10 @@ def sigmoid(t):
 # regular regression
 def calculate_loss(y, tx, w):
     fx_list = np.dot(tx,w)
-    fx_trans_1 = np.log(1 + np.exp(fx_list))
+    fx_trans_1 = np.logaddexp(0,fx_list)
     fx_trans_2 = np.multiply(y,fx_list)
     res = fx_trans_1 - fx_trans_2
-    return -1*res.sum()
+    return res.sum()
 
 def calculate_gradient(y, tx, w):
     """compute the gradient of loss."""
@@ -220,10 +220,10 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     w = initial_w
     for n_iter in range(max_iters):
         w = reg_logistic_regression_step(y,tx,lambda_,w,gamma)
-        """if(n_iter % (max_iters/10) == 0):
+        if(n_iter % (max_iters/10) == 0):
             loss = reg_calculate_loss(y, tx, lambda_, w)
             print(n_iter," loss ",loss)
-            print(n_iter," w ", w)"""
+            print(n_iter," w ", w)
 
     loss = reg_calculate_loss(y, tx, lambda_, w)
     return loss, w
