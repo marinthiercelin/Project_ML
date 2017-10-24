@@ -24,6 +24,18 @@ def load_csv_data(data_path, sub_sample=False):
 
     return yb, input_data, ids
 
+def save_clean_data(clean_x, clean_y):
+    """saves the clean data to the file system"""
+    np.save("x.npy", clean_x)
+    np.save("y.npy", clean_y)
+
+def load_clean_data():
+    """loads the clean data as x, y"""
+    clean_x = np.load("x.npy")
+    clean_y = np.load("y.npy")
+
+    return clean_x, clean_y
+
 def changeYtoBinary(y):
     """Map all -1 in Y to 0 and keep the other at 1."""
     res = np.array(y)
@@ -48,7 +60,6 @@ def predict_labels(weights, data):
     y_pred[np.where(y_pred <= 0.5)] = 0 #modified this to fit the formula
     y_pred[np.where(y_pred > 0.5)] = 1
     return y_pred
-
 
 def create_csv_submission(ids, y_pred, name):
     """
