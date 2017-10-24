@@ -220,10 +220,10 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     w = initial_w
     for n_iter in range(max_iters):
         w = reg_logistic_regression_step(y,tx,lambda_,w,gamma)
-        if(n_iter % (max_iters/10) == 0):
+        """if(n_iter % (max_iters/10) == 0):
             loss = reg_calculate_loss(y, tx, lambda_, w)
             print(n_iter," loss ",loss)
-            print(n_iter," w ", w)
+            print(n_iter," w ", w)"""
 
     loss = reg_calculate_loss(y, tx, lambda_, w)
     return loss, w
