@@ -24,6 +24,15 @@ def load_csv_data(data_path, sub_sample=False):
 
     return yb, input_data, ids
 
+def changeYtoBinary(y):
+    res = y
+    res[np.where(y == -1)] = 0
+    return res
+
+def changeYfromBinary(y):
+    res = y
+    res[np.where(y == 0)] = -1
+    return res
 
 def sigmoid(t):
     """apply sigmoid function on t."""
@@ -34,7 +43,7 @@ def predict_labels(weights, data):
     """Generates class predictions given weights, and a test data matrix"""
     y_pred = np.dot(data, weights)
     y_pred = sigmoid(y_pred)
-    y_pred[np.where(y_pred <= 0.5)] = -1 #modified this to fit the formula
+    y_pred[np.where(y_pred <= 0.5)] = 0 #modified this to fit the formula
     y_pred[np.where(y_pred > 0.5)] = 1
     return y_pred
 
