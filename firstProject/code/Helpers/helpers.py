@@ -25,14 +25,12 @@ def load_csv_data(data_path, sub_sample=False):
     return yb, input_data, ids
 
 def changeYtoBinary(y):
-<<<<<<< HEAD
     """Map all -1 in Y to 0 and keep the other at 1."""
     res = np.array(y)
     res[np.where(y == -1)] = 0
     return res
 
 def changeYfromBinary(y):
-<<<<<<< HEAD
     """Map all 0 in Y to -1 and keep the other at 1."""
     res = np.array(y)
     res[np.where(y == 0)] = -1
