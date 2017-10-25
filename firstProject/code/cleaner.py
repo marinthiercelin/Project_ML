@@ -1,4 +1,19 @@
 import numpy as np
+import Helpers.helpers as helper
+def treatData(x,withY = True,y = []):
+    xCl = x
+    YCl = y
+    if(withY):
+        xCl = fillMissingValuesMediansWithY(x,y)
+        yCl = helper.changeYtoBinary(y)
+    else:
+        xCl = fillMissingValuesMedianWOY(x)
+    xCl = outliersToMedian(x)
+    xCl = normalize_input(x)
+    if(withY):
+        return yCl, xCl
+    else:
+        return xCl
 
 def fillMissingValuesMeansWithY(tx,y):
     """ Fill the missing values in tx with the mean of all real values of his category for this feature.
@@ -152,3 +167,19 @@ def deleteOutliers(x):
     print(toDel.shape[0],x.shape[0])
     x = np.delete(x,toDel,axis=0)
     return x
+
+#compute and print correlation
+def computeCorrelation(x):
+    covariance = np.cov(x.T)
+    correl = np.ones((x.shape[1], x.shape[1]))
+    for i in range(x.shape[1]):
+        x_i = x[:,i]
+        std_i = np.std(x_i)
+        for j in range(i+1,x.shape[1]):
+            x_j = x[:,j]
+            std_j = np.std(x_j)
+            cor_ij = covariance[i,j]/(std_i*std_j)
+            correl[i,j] = cor_ij
+            correl[j,i] = cor_ij
+
+    return np.tril(correl)
