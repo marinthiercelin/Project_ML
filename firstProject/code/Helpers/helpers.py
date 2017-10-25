@@ -26,13 +26,13 @@ def load_csv_data(data_path, sub_sample=False):
 
 def save_clean_data(clean_x, clean_y):
     """saves the clean data to the file system"""
-    np.save("x.npy", clean_x)
-    np.save("y.npy", clean_y)
+    np.save("../data/x.npy", clean_x)
+    np.save("../data/y.npy", clean_y)
 
 def load_clean_data():
     """loads the clean data as x, y"""
-    clean_x = np.load("x.npy")
-    clean_y = np.load("y.npy")
+    clean_x = np.load("../data/x.npy")
+    clean_y = np.load("../data/y.npy")
 
     return clean_x, clean_y
 
