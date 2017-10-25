@@ -4,7 +4,7 @@ import Visualization.visu as visu
 import cleaner
 import numpy as np
 
-y,x, ids = helper.load_csv_data('../data/train.csv', True)
+y,x, ids = helper.load_csv_data('../data/train.csv', False)
 
 path = '../data/Figures/2DWO/'
 

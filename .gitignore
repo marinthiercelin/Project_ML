@@ -2,6 +2,7 @@
 
 /firstProject/data/*.csv
 /firstProject/data/Figures/
+/firstProject/data/*
 
 
 #python generic
