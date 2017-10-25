@@ -9,6 +9,11 @@ def main():
     x = filter_bad_features(x)
     x, y = bad_samples = filter_bad_samples(x, y)
 
+    x = fillMissingValuesMediansWithY(x,y)
+    y = helper.changeYtoBinary(y)
+    x = normalize_input(x)
+
+
     helper.save_clean_data(x, y, '../data/')
 
 
