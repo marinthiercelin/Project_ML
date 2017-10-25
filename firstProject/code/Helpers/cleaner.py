@@ -1,5 +1,5 @@
 import numpy as np
-import Helpers.helpers as helper
+import helpers as helper
 def treatData(x,withY = True,y = []):
     xCl = x
     YCl = y
