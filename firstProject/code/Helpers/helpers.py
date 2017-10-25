@@ -24,15 +24,15 @@ def load_csv_data(data_path, sub_sample=False):
 
     return yb, input_data, ids
 
-def save_clean_data(clean_x, clean_y):
-    """saves the clean data to the file system"""
-    np.save("../data/x.npy", clean_x)
-    np.save("../data/y.npy", clean_y)
+def save_clean_data(clean_x, clean_y, path_of_data):
+    """saves the clean data to the file system, pass the last '/' as argument"""
+    np.save(path_of_data + "x.npy", clean_x)
+    np.save(path_of_data + "y.npy", clean_y)
 
-def load_clean_data():
-    """loads the clean data as x, y"""
-    clean_x = np.load("../data/x.npy")
-    clean_y = np.load("../data/y.npy")
+def load_clean_data(path_of_data):
+    """loads the clean data as x, y, pass the last '/' as argument"""
+    clean_x = np.load(path_of_data + "x.npy")
+    clean_y = np.load(path_of_data + "y.npy")
 
     return clean_x, clean_y
 

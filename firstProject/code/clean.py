@@ -9,7 +9,7 @@ def main():
     x = filter_bad_features(x)
     x, y = bad_samples = filter_bad_samples(x, y)
 
-    helper.save_clean_data(x, y)
+    helper.save_clean_data(x, y, '../data/')
 
 
 if __name__ == '__main__':
