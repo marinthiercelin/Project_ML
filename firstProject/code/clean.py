@@ -19,7 +19,7 @@ def main():
 
     helper.save_clean_data(x, y, '../data/x_train.npy', '../data/y_train.npy')
 
-    y_te, x_te, ids = helper.load_csv_data('../data/test.csv', False)
+    y_te, x_te, ids_te = helper.load_csv_data('../data/test.csv', False)
 
     x_te = x_te[:,good_columns]
     x_te = remove_unused_features(x_te, [2,22,17,18])
