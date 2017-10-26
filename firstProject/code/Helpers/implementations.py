@@ -101,8 +101,6 @@ def split_data(x, y, ratio, seed=1):
 def ridge_regression(y, tx, lambda_):
     """Implement ridge regression."""
     xt = tx.T
-    print(tx)
-    print(xt)
     gram = np.dot(xt,tx)
     gram += (2.0*y.shape[0]*lambda_)*np.identity(gram.shape[0])
     ft = np.dot(xt,y)
@@ -233,7 +231,7 @@ def full_cross_validation(x,y):
     seed = 1
     degree = 7
     k_fold = 4
-    lambdas = np.logspace(-4, 0, 30)
+    lambdas = [0.01]
     # split data in k fold
     k_indices = hlp.build_k_indices(y, k_fold, seed)
     # define lists to store the loss of training data and test data
@@ -256,4 +254,4 @@ def full_cross_validation(x,y):
         rmse_tr.append(sum_tr/(1.0*k_fold))
         rmse_te.append(sum_te/(1.0*k_fold))
         w_all.append(sum_w/(1.0*k_fold))
-    print(w_all)
+    return w_all[0]
