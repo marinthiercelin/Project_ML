@@ -125,14 +125,14 @@ def filter_bad_samples(x, y, freedom=0.2):
     return x[indices], y[indices]
 
 
-def filter_bad_features(x, freedom=0.6):
+def select_bad_features(x, freedom=0.6):
     """removes all features from x that have a percentage
     of unknown samples that is greater or equal to freedom%"""
 
     N, D = x.shape
     max_bad = int(N * freedom)
-
-    return x[:,(x < -900).sum(axis=0) < max_bad]
+    good_columns = (x < -900).sum(axis=0) < max_bad
+    return good_columns
 
 def outliersToMedian(x):
     """Put all the statisctical outliers to the median """
@@ -168,4 +168,4 @@ def computeCorrelation(x):
             correl[i,j] = cor_ij
             correl[j,i] = cor_ij
 
-    return np.tril(correl)
+    return correl
