@@ -1,4 +1,5 @@
 import numpy as np
+import Helpers.helpers as hlp
 
 def compute_gradient(y, tx, w):
     """Compute the gradient."""
@@ -80,10 +81,6 @@ def least_squares(y, tx):
     loss = compute_mse(y,tx,w)
     return loss, w
 
-def build_poly(x, degree):
-    """Polynomial basis functions for input data x, for j=0 up to j=degree."""
-    return np.array([[np.power(xi,n) for n in range(degree + 1)] for xi in x])
-
 #used to have train and test set
 def split_data(x, y, ratio, seed=1):
     """Split the data x and y with a given ratio.
@@ -104,23 +101,14 @@ def split_data(x, y, ratio, seed=1):
 def ridge_regression(y, tx, lambda_):
     """Implement ridge regression."""
     xt = tx.T
+    print(tx)
+    print(xt)
     gram = np.dot(xt,tx)
     gram += (2.0*y.shape[0]*lambda_)*np.identity(gram.shape[0])
     ft = np.dot(xt,y)
     w = np.linalg.lstsq(gram, ft)[0]
     loss = compute_mse(y, tx, w)
     return loss, w
-
-#for cross validation
-def build_k_indices(y, k_fold, seed):
-    """Build k indices for k-fold."""
-    num_row = y.shape[0]
-    interval = int(num_row / k_fold)
-    np.random.seed(seed)
-    indices = np.random.permutation(num_row)
-    k_indices = [indices[k * interval: (k + 1) * interval]
-                 for k in range(k_fold)]
-    return np.array(k_indices)
 
 #for logistic regression
 def sigmoid(t):
@@ -213,3 +201,59 @@ def reg_logistic_regression_sgd(y, tx, lambda_, initial_w, batch_size, max_iters
             w = reg_logistic_regression_step(batch_y,batch_tx,lambda_,w,gamma)
     loss = reg_calculate_loss(y, tx, lambda_, w)
     return loss, w
+
+def one_cross_validation(y, x, k_indices, k, lambda_, degree):
+    """Return the loss of ridge regression."""
+    # ***************************************************
+    # get k'th subgroup in test, others in train
+    # ***************************************************
+    x_test = x[k_indices[k]]
+    y_test = y[k_indices[k]]
+    all_ind = np.array(list(range(x.shape[0])))
+    rest_ind = np.setdiff1d(all_ind,k_indices[k])
+    x_train = x[rest_ind]
+    y_train = y[rest_ind]
+    # ***************************************************
+    # form data with polynomial degree
+    # ***************************************************
+    x_train = hlp.build_poly(x_train,degree)
+    x_test = hlp.build_poly(x_test,degree)
+    # ***************************************************
+    # ridge regression
+    # ***************************************************
+    loss,w = ridge_regression(y_train,x_train,lambda_)
+    # ***************************************************
+    # calculate the loss for train and test data
+    # ***************************************************
+    loss_tr = compute_mse(y_train,x_train,w)
+    loss_te = compute_mse(y_test,x_test,w)
+    return loss_tr, loss_te, w
+
+def full_cross_validation(x,y):
+    seed = 1
+    degree = 7
+    k_fold = 4
+    lambdas = np.logspace(-4, 0, 30)
+    # split data in k fold
+    k_indices = hlp.build_k_indices(y, k_fold, seed)
+    # define lists to store the loss of training data and test data
+    rmse_tr = []
+    rmse_te = []
+    w_all = []
+    # ***************************************************
+    # INSERT YOUR CODE HERE
+    # cross validation
+    # ***************************************************
+    for lambda_ in lambdas:
+        sum_te = 0
+        sum_tr = 0
+        sum_w = 0
+        for k in range(k_fold):
+            mse_tr,mse_te,w = one_cross_validation(y,x,k_indices,k,lambda_, degree)
+            sum_w += w
+            sum_tr += np.sqrt(2*mse_tr)
+            sum_te += np.sqrt(2*mse_te)
+        rmse_tr.append(sum_tr/(1.0*k_fold))
+        rmse_te.append(sum_te/(1.0*k_fold))
+        w_all.append(sum_w/(1.0*k_fold))
+    print(w_all)
