@@ -229,9 +229,9 @@ def one_cross_validation(y, x, k_indices, k, lambda_, degree):
 
 def full_cross_validation(x,y):
     seed = 1
-    degree = 7
-    k_fold = 4
-    lambdas = [0.01]
+    degree = 5
+    k_fold = 7
+    lambdas = [-0.000000000001]
     # split data in k fold
     k_indices = hlp.build_k_indices(y, k_fold, seed)
     # define lists to store the loss of training data and test data
