@@ -125,14 +125,14 @@ def filter_bad_samples(x, y, freedom=0.2):
     return x[indices], y[indices]
 
 
-def filter_bad_features(x, freedom=0.6):
+def select_bad_features(x, freedom=0.6):
     """removes all features from x that have a percentage
     of unknown samples that is greater or equal to freedom%"""
 
     N, D = x.shape
     max_bad = int(N * freedom)
-
-    return x[:,(x < -900).sum(axis=0) < max_bad]
+    good_columns = (x < -900).sum(axis=0) < max_bad
+    return good_columns
 
 def outliersToMedian(x):
     """Put all the statisctical outliers to the median """
@@ -149,25 +149,10 @@ def outliersToMedian(x):
         x_col[np.where(x_col > upBound)] = median
     return x
 
-#useless, they are all outliers for something
-def deleteOutliers(x):
-    toDel = np.array([])
-    for col in range(x.shape[1]):
-        x_col = x[:,col]
-        column = x_col[np.where(x_col != -999)]
-        median = np.median(column)
-        quInf = np.percentile(column,25)
-        quSup = np.percentile(column,75)
-        woUnknown = np.copy(x_col)
-        woUnknown[np.where(woUnknown == -999)] = median
-        iqr = quSup - quInf
-        loBound = quInf - 1.5*iqr
-        upBound = quSup + 1.5*iqr
-        toDel = np.union1d(toDel, np.where(woUnknown < loBound)[0])
-        toDel = np.union1d(toDel, np.where(woUnknown > upBound)[0])
-    print(toDel.shape[0],x.shape[0])
-    x = np.delete(x,toDel,axis=0)
-    return x
+def remove_unused_features(x,toRemove):
+    """filter out the features"""
+    xBis = np.delete(x,toRemove,axis=1)
+    return xBis
 
 #compute and print correlation
 def computeCorrelation(x):
@@ -183,4 +168,4 @@ def computeCorrelation(x):
             correl[i,j] = cor_ij
             correl[j,i] = cor_ij
 
-    return np.tril(correl)
+    return correl
