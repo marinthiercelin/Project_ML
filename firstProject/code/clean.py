@@ -9,7 +9,7 @@ def main():
     good_columns = select_bad_features(x)
     x = x[:,good_columns]
     x, y = filter_bad_samples(x, y)
-    x = remove_unused_features(x, [2,22,17,18])
+    x = remove_unused_features(x, [2,22,17])
     x = fillMissingValuesMediansWithY(x,y)
     x = outliersToMedian(x)
     y = helper.changeYtoBinary(y)
@@ -22,7 +22,7 @@ def main():
     y_te, x_te, ids_te = helper.load_csv_data('../data/test.csv', False)
 
     x_te = x_te[:,good_columns]
-    x_te = remove_unused_features(x_te, [2,22,17,18])
+    x_te = remove_unused_features(x_te, [2,22,17])
     x_te = fillMissingValuesMediansWOY(x_te)
     y_te = helper.changeYtoBinary(y_te)
     x_te = (x_te - mean_x)/std_x
