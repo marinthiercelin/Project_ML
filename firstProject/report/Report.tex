@@ -18,7 +18,7 @@
 
 \begin{abstract}
     In this report we will explain how we used the methods
-    seen in class to classify a given dataset.
+    seen in class to do classification on a given dataset.
 \end{abstract}
 
 \section{Analysing and cleaning the dataset}
@@ -28,14 +28,24 @@ being used for classification. A lot of data points
 had features that were unknown (with value -999),
 each features were represented in very different scales
 and most features presented outliers.
+\subsection{Treating missing values}
+We tried several approaches with respects of the
+missing values. We deleted the features that had too many
+-999, with a threshold of 60\% of the train data set.
+We also deleted the training data points that had more than 20\%
+of unknown values.\\
+With the remaining -999s, we tried different methods:
+setting them to the mean or the median.
+For the training data, we computed two means/medians depending
+on the label, whereas for the test data, we computed a single mean/median.
 
-
+\subsection{}
 
 \section{The Structure of a Paper}
 \label{sec:structure-paper}
 
 Scientific papers usually begin with the description of the problem,
-justifying why the problem is interesting. Most importantly, it argues
+justifying why the problem is interesting. Most importantly it argues
 that the problem is still unsolved, or that the current solutions are
 unsatisfactory. This leads to the main gist of the paper, which is
 ``the idea''. The authors then show evidence, using derivations or
