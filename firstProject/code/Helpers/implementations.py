@@ -132,15 +132,23 @@ def sigmoid(t):
 def calculate_loss(y, tx, w):
     """Compute the cost by negative log likelihood."""
     fx_list = np.dot(tx,w)
+    print(1)
     fx_trans_1 = np.logaddexp(0,fx_list)
+    print(2)
     fx_trans_2 = np.multiply(y,fx_list)
+    print(3)
     res = fx_trans_1 - fx_trans_2
+    print(4)
     return res.sum()
 
 def calculate_gradient(y, tx, w):
     """Compute the gradient of loss."""
+    # print("calculate_gradient: ", y.shape, tx.shape, w.shape)
     fx_sigma = sigmoid(np.dot(tx,w))
-    mul = fx_sigma - y
+    # print("fx_sigma.T", fx_sigma.T.shape)
+    mul = fx_sigma.T - y
+    mul = mul.T
+    # print("fx_sigma, mul: ", fx_sigma.shape, mul.shape)
     return np.dot(tx.T,mul)
 
 def logistic_regression_step(y, tx, w, gamma):
@@ -150,7 +158,7 @@ def logistic_regression_step(y, tx, w, gamma):
     Return the loss and the updated w.
     """
     grad = calculate_gradient(y,tx,w)
-    print("grad",grad)
+    # print("grad",grad)
     w = w - gamma*grad
     return w
 
@@ -159,7 +167,8 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
     w = initial_w
     for n_iter in range(max_iters):
         w = logistic_regression_step(y,tx,w,gamma)
-        print("w",w)
+        # print("w",w)
+        print("w", w)
     loss = calculate_loss(y,tx,w)
     return loss, w
 
@@ -169,6 +178,7 @@ def logistic_regression_sgd(y, tx, initial_w, batch_size, max_iters, gamma, seed
     for n_iter in range(max_iters):
         for batch_y, batch_tx in batch_iter(y,tx,batch_size, seed):
             w = logistic_regression_step(batch_y,batch_tx,w,gamma)
+            print(w)
     loss = calculate_loss(y, tx, w)
     return loss, w
 
@@ -189,20 +199,28 @@ def reg_logistic_regression_step(y, tx, lambda_, w, gamma):
     Return the loss and the updated w.
     """
     grad = reg_calculate_gradient(y,tx, lambda_, w)
+    # print("grad.shape", grad.shape)
     w = w - gamma*grad
     return w
 
 def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     """Gradient descent algorithm."""
     w = initial_w
+    # print("initial_w.shape", w.shape)
     for n_iter in range(max_iters):
         w = reg_logistic_regression_step(y,tx,lambda_,w,gamma)
         """if(n_iter % (max_iters/10) == 0):
             loss = reg_calculate_loss(y, tx, lambda_, w)
             print(n_iter," loss ",loss)
             print(n_iter," w ", w)"""
+        print("w:", np.mean(w))
 
-    loss = reg_calculate_loss(y, tx, lambda_, w)
+
+    # print("w.shape", w.shape)
+    # loss = reg_calculate_loss(y, tx, lambda_, w)
+    loss = calculate_loss(y, tx, w)
+    # loss = 0
+    print("loss:", loss)
     return loss, w
 
 def reg_logistic_regression_sgd(y, tx, lambda_, initial_w, batch_size, max_iters, gamma, seed = 1):
