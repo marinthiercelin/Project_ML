@@ -4,6 +4,9 @@ import numpy as np
 import Helpers.implementations as imp
 
 def train_model_ridge_cross(x, y, lambdas=[-0.00001], ratio=.8, seed=1):
+    """Trains a model using ridge_regression and cross_validation.
+
+    Selects the weights which have the best accuracy locally"""
     accuracies = []
     ws = []
     rmse_trs = []
@@ -22,6 +25,12 @@ def train_model_ridge_cross(x, y, lambdas=[-0.00001], ratio=.8, seed=1):
     return w_all[i], accuracies[i], rmse_tr[i], rmse_te[i]
 
 def train_all_models(xs, ys, lambdas=[0.001, .01, -0.01], parts=[0,1,2,3]):
+    """Trains all the models.
+
+    Takes as input a list of the x and y
+    and Returns 4 lists: the weight for each model, their corresponding accuracy,
+    and the rmses (training and testing)
+    """
     xpow = [helper.addConstant(helper.toDeg(xs[p], 2)) for p in parts]
     ws = []
     accuracies = []
