@@ -96,6 +96,18 @@ def toDeg(x,degree):
 def addConstant(x):
     return np.c_[np.ones((x.shape[0],1)),x]
 
+
+def add_effect(x, dim, fun):
+    """Only do it after adding a constant.
+
+    Examples:
+    add_effect(x, dim, np.cos)
+    add_effect(x, dim, lambda x: np.log(x+1))."""
+    select = x[:,1:dim+1]
+    ret = fun(select)
+    return np.concatenate([x, ret], axis=1)
+
+
 def build_poly(x, degree):
     """Polynomial basis functions for input data x, for j=0 up to j=degree."""
     x2 = toDeg(x,degree)
