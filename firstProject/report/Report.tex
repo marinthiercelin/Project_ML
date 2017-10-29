@@ -41,14 +41,23 @@ For the training data, we computed two means/medians depending
 on the label, whereas for the test data, we computed a single mean/median.
 
 \subsection{Avoiding outliers}
-For all features, we saw that few points were having really
+For all features in the train data, we saw that few points were having really
 strange values, and this points could pose problems to the convergence
 of the learning algorithm.
 We first classified the data points as outliers, for feature i if:
 \begin{equation}
     X_i \in [Median - 1.5*IQR,\ Median + 1.5*IQR]
 \end{equation}
-where IQR is the difference between the 
+where IQR is the interquatile range.
+Once we marked the points as outliers we considered two approaches:
+deleting the outliers or setting them to different values.
+The first approach revealed to be costly as a great part
+of the data points was an outlier for at least one feature.
+For this reason we decided to set the outlier to a different value,
+we chose to set them to the median as it is more resistant to the outliers.
+
+
+
 
 \subsection{Normalizing}
 The features had very different scales, so we decided to
@@ -60,47 +69,15 @@ For the test data, we choosed to normalize using the mean and
 standard deviation of the train data, to avoid having difference
 in the data treatment and having models that do not fit.
 
+
 \subsection{Divising the set in 4}
 As one of the features was integer valued with value in \{0,1,2,3\}
 we decided to divide the data in 4 based on this value and train 4 different models.
 When dividing, some features were equal and some had variance 0 in some subsets,
 allowing to further reduce the number of features.
 
-\section{The Structure of a Paper}
-\label{sec:structure-paper}
-
-Scientific papers usually begin with the description of the problem,
-justifying why the problem is interesting. Most importantly it argues
-that the problem is still unsolved, or that the current solutions are
-unsatisfactory. This leads to the main gist of the paper, which is
-``the idea''. The authors then show evidence, using derivations or
-experiments, that the idea works. Since science does not occur in a
-vacuum, a proper comparison to the current state of the art is often
-part of the results. Following these ideas, papers usually have the
-following structure:
-\begin{description}
-\item[Abstract] \ \\
-  Short description of the whole paper, to help the
-  reader decide whether to read it.
-\item[Introduction] \ \\
-  Describe your problem and state your
-  contributions.
-\item[Models and Methods] \ \\
-  Describe your idea and how it was implemented to solve
-  the problem. Survey the related work, giving credit where credit is
-  due.
-\item[Results] \ \\
-  Show evidence to support your claims made in the
-  introduction.
-\item[Discussion] \ \\
-  Discuss the strengths and weaknesses of your
-  approach, based on the results. Point out the implications of your
-  novel idea on the application concerned.
-\item[Summary] \ \\
-  Summarize your contributions in light of the new
-  results.
-\end{description}
-
+\section{Feature extraction}
+Once we cleaned 
 
 \section{Tips for Good Writing}
 \label{sec:tips-writing}
