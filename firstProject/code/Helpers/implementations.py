@@ -200,7 +200,7 @@ def reg_logistic_regression_sgd(y, tx, lambda_, initial_w, batch_size, max_iters
     loss = reg_calculate_loss(y, tx, lambda_, w)
     return loss, w
 
-def one_cross_validation(y, x, k_indices, k, lambda_, degree):
+def one_cross_validation(y, x, k_indices, k, lambda_):
     """Return the loss of ridge regression."""
     # ***************************************************
     # get k'th subgroup in test, others in train
@@ -212,11 +212,6 @@ def one_cross_validation(y, x, k_indices, k, lambda_, degree):
     x_train = x[rest_ind]
     y_train = y[rest_ind]
     # ***************************************************
-    # form data with polynomial degree
-    # ***************************************************
-    x_train = hlp.build_poly(x_train,degree)
-    x_test = hlp.build_poly(x_test,degree)
-    # ***************************************************
     # ridge regression
     # ***************************************************
     loss,w = ridge_regression(y_train,x_train,lambda_)
@@ -225,33 +220,25 @@ def one_cross_validation(y, x, k_indices, k, lambda_, degree):
     # ***************************************************
     loss_tr = compute_mse(y_train,x_train,w)
     loss_te = compute_mse(y_test,x_test,w)
-    return loss_tr, loss_te, w
+    return w,loss_tr, loss_te
 
 def full_cross_validation(x,y):
-    seed = 1
     degree = 5
-    k_fold = 7
-    lambdas = [-0.000000000001]
+    k_fold = 4
+    seed = 7
+    lambda_ = 0 # -0.000000000001
     # split data in k fold
+    x_pow = hlp.build_poly(x,degree)
     k_indices = hlp.build_k_indices(y, k_fold, seed)
-    # define lists to store the loss of training data and test data
-    rmse_tr = []
-    rmse_te = []
-    w_all = []
-    # ***************************************************
-    # INSERT YOUR CODE HERE
-    # cross validation
-    # ***************************************************
-    for lambda_ in lambdas:
-        sum_te = 0
-        sum_tr = 0
-        sum_w = 0
-        for k in range(k_fold):
-            mse_tr,mse_te,w = one_cross_validation(y,x,k_indices,k,lambda_, degree)
-            sum_w += w
-            sum_tr += np.sqrt(2*mse_tr)
-            sum_te += np.sqrt(2*mse_te)
-        rmse_tr.append(sum_tr/(1.0*k_fold))
-        rmse_te.append(sum_te/(1.0*k_fold))
-        w_all.append(sum_w/(1.0*k_fold))
-    return w_all[0]
+    sum_te = 0
+    sum_tr = 0
+    sum_w = np.array(x_pow.shape[1]*[0.0])
+    for k in range(k_fold):
+        w,mse_tr,mse_te = one_cross_validation(y,x_pow,k_indices,k, lambda_)
+        sum_w += w
+        sum_tr += np.sqrt(2*mse_tr)
+        sum_te += np.sqrt(2*mse_te)
+    mean_w = sum_w/(1.0*k_fold)
+    mean_error_tr = sum_tr/(1.0*k_fold)
+    mean_error_te = sum_te/(1.0*k_fold)
+    return mean_w

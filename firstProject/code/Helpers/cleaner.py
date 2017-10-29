@@ -1,20 +1,36 @@
 import numpy as np
 import Helpers.helpers as helper
 
-def treatData(x,withY = True,y = []):
-    xCl = x
-    YCl = y
-    if(withY):
-        xCl = fillMissingValuesMediansWithY(x,y)
-        yCl = helper.changeYtoBinary(y)
-    else:
-        xCl = fillMissingValuesMedianWOY(x)
-    xCl = outliersToMedian(x)
-    xCl = normalize_input(x)
-    if(withY):
-        return yCl, xCl
-    else:
-        return xCl
+def final_clean_data():
+    """ Clean the x and y from the training and test data
+
+    Load the .csv files from ../../data/train.csv and ../../data/test.csv
+    Treat the samples and the features with various methods
+    Change the output to binary
+    Normalize the data
+    Return all treated data and the ids of the test
+    """
+    y,x, ids = helper.load_csv_data('../data/train.csv', False)
+    y_te, x_te, ids_te = helper.load_csv_data('../data/test.csv', False)
+
+    good_columns = select_bad_features(x)
+    x = x[:,good_columns]
+    x, y = filter_bad_samples(x, y)
+    x = remove_unused_features(x, [2,17,18,22])
+    x = fillMissingValuesMediansWithY(x,y)
+    x = outliersToMedian(x)
+    y = helper.changeYtoBinary(y)
+    std_x = np.std(x)
+    mean_x = np.mean(x)
+    x = (x - mean_x)/std_x
+
+    x_te = x_te[:,good_columns]
+    x_te = remove_unused_features(x_te, [2,17,18,22])
+    x_te = fillMissingValuesMediansWOY(x_te)
+    y_te = helper.changeYtoBinary(y_te)
+    x_te = (x_te - mean_x)/std_x
+
+    return x, y, x_te, y_te, ids_te
 
 def fillMissingValuesMeansWithY(tx,y):
     """ Fill the missing values in tx with the mean of all real values of his category for this feature.

@@ -87,6 +87,7 @@ def build_k_indices(y, k_fold, seed):
     return np.array(k_indices)
 
 def toDeg(x,degree):
+    """Raise x to the given degree"""
     res = x
     for i in range(2,degree +1):
         power = np.power(x,i)
@@ -94,6 +95,7 @@ def toDeg(x,degree):
     return res
 
 def addConstant(x):
+    """Add a constant term in the features"""
     return np.c_[np.ones((x.shape[0],1)),x]
 
 def build_poly(x, degree):
@@ -101,7 +103,3 @@ def build_poly(x, degree):
     x2 = toDeg(x,degree)
     x3 = addConstant(x2)
     return x3
-
-def build_poly_ini(x, degree):
-    """Polynomial basis functions for input data x, for j=0 up to j=degree."""
-    return np.array([[np.power(xi,n) for n in range(degree + 1)] for xi in x])
