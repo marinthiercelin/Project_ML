@@ -28,6 +28,7 @@ being used for classification. A lot of data points
 had features that were unknown (with value -999),
 each features were represented in very different scales
 and most features presented outliers.
+
 \subsection{Treating missing values}
 We tried several approaches with respects of the
 missing values. We deleted the features that had too many
@@ -39,7 +40,31 @@ setting them to the mean or the median.
 For the training data, we computed two means/medians depending
 on the label, whereas for the test data, we computed a single mean/median.
 
-\subsection{}
+\subsection{Avoiding outliers}
+For all features, we saw that few points were having really
+strange values, and this points could pose problems to the convergence
+of the learning algorithm.
+We first classified the data points as outliers, for feature i if:
+\begin{equation}
+    X_i \in [Median - 1.5*IQR,\ Median + 1.5*IQR]
+\end{equation}
+where IQR is the difference between the 
+
+\subsection{Normalizing}
+The features had very different scales, so we decided to
+normalize them in order to better compare them. We used the formula :
+\begin{equation}
+    X' = \frac{ (X - \overline{X}) }{ \sigma(X) }
+\end{equation}
+For the test data, we choosed to normalize using the mean and
+standard deviation of the train data, to avoid having difference
+in the data treatment and having models that do not fit.
+
+\subsection{Divising the set in 4}
+As one of the features was integer valued with value in \{0,1,2,3\}
+we decided to divide the data in 4 based on this value and train 4 different models.
+When dividing, some features were equal and some had variance 0 in some subsets,
+allowing to further reduce the number of features.
 
 \section{The Structure of a Paper}
 \label{sec:structure-paper}
