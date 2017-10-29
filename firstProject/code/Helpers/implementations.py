@@ -218,7 +218,7 @@ def reg_logistic_regression_sgd(y, tx, lambda_, initial_w, batch_size, max_iters
     loss = reg_calculate_loss(y, tx, lambda_, w)
     return loss, w
 
-def one_cross_validation(y, x, k_indices, k, lambda_, degree):
+def one_cross_validation(y, x, k_indices, k, lambda_):
     """Return the loss of ridge regression."""
     # ***************************************************
     # get k'th subgroup in test, others in train
@@ -230,11 +230,6 @@ def one_cross_validation(y, x, k_indices, k, lambda_, degree):
     x_train = x[rest_ind]
     y_train = y[rest_ind]
     # ***************************************************
-    # form data with polynomial degree
-    # ***************************************************
-    x_train = hlp.build_poly(x_train,degree)
-    x_test = hlp.build_poly(x_test,degree)
-    # ***************************************************
     # ridge regression
     # ***************************************************
     loss,w = ridge_regression(y_train,x_train,lambda_)
@@ -245,11 +240,8 @@ def one_cross_validation(y, x, k_indices, k, lambda_, degree):
     loss_te = compute_mse(y_test,x_test,w)
     return loss_tr, loss_te, w
 
-def full_cross_validation(x,y):
+def full_cross_validation(x,y, lambdas=[-0.00001], k_fold=4):
     seed = 1
-    degree = 5
-    k_fold = 7
-    lambdas = [-0.000000000001]
     # split data in k fold
     k_indices = hlp.build_k_indices(y, k_fold, seed)
     # define lists to store the loss of training data and test data
@@ -265,11 +257,11 @@ def full_cross_validation(x,y):
         sum_tr = 0
         sum_w = 0
         for k in range(k_fold):
-            mse_tr,mse_te,w = one_cross_validation(y,x,k_indices,k,lambda_, degree)
+            mse_tr,mse_te,w = one_cross_validation(y,x,k_indices,k,lambda_)
             sum_w += w
             sum_tr += np.sqrt(2*mse_tr)
             sum_te += np.sqrt(2*mse_te)
         rmse_tr.append(sum_tr/(1.0*k_fold))
         rmse_te.append(sum_te/(1.0*k_fold))
         w_all.append(sum_w/(1.0*k_fold))
-    return w_all[0]
+    return w_all, rmse_tr, rmse_te
