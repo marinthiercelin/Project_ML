@@ -49,7 +49,7 @@ def changeYfromBinary(y):
     return res
 
 def sigmoid(t):
-    """apply sigmoid function on t."""
+    """Apply sigmoid function on t."""
     exp_inv = np.exp(-1.0*t)
     return np.divide(1,1+exp_inv)
 
@@ -74,3 +74,34 @@ def create_csv_submission(ids, y_pred, name):
         writer.writeheader()
         for r1, r2 in zip(ids, y_pred):
             writer.writerow({'Id':int(r1),'Prediction':int(r2)})
+
+#for cross validation
+def build_k_indices(y, k_fold, seed):
+    """Build k indices for k-fold."""
+    num_row = y.shape[0]
+    interval = int(num_row / k_fold)
+    np.random.seed(seed)
+    indices = np.random.permutation(num_row)
+    k_indices = [indices[k * interval: (k + 1) * interval]
+                 for k in range(k_fold)]
+    return np.array(k_indices)
+
+def toDeg(x,degree):
+    res = x
+    for i in range(2,degree +1):
+        power = np.power(x,i)
+        res = np.c_[res,power]
+    return res
+
+def addConstant(x):
+    return np.c_[np.ones((x.shape[0],1)),x]
+
+def build_poly(x, degree):
+    """Polynomial basis functions for input data x, for j=0 up to j=degree."""
+    x2 = toDeg(x,degree)
+    x3 = addConstant(x2)
+    return x3
+
+def build_poly_ini(x, degree):
+    """Polynomial basis functions for input data x, for j=0 up to j=degree."""
+    return np.array([[np.power(xi,n) for n in range(degree + 1)] for xi in x])
