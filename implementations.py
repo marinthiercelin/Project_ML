@@ -223,6 +223,7 @@ def one_cross_validation(y, x, k_indices, k, lambda_):
     return w,loss_tr, loss_te
 
 def full_cross_validation(x,y):
+    """Tests the cross validation on different values of k_folds."""
     degree = 5
     k_fold = 4
     seed = 7
