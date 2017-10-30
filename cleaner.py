@@ -172,6 +172,7 @@ def remove_unused_features(x,toRemove):
 
 #compute and print correlation
 def computeCorrelation(x):
+    """Computes the correlations between the features of x."""
     covariance = np.cov(x.T)
     correl = np.ones((x.shape[1], x.shape[1]))
     for i in range(x.shape[1]):
