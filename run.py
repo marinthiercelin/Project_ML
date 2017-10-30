@@ -1,6 +1,6 @@
-import Helpers.helpers as hlp
-import Helpers.cleaner as cl
-import Helpers.implementations as imp
+import helpers as hlp
+import cleaner as cl
+import implementations as imp
 import numpy as np
 
 def main():
@@ -12,7 +12,7 @@ def main():
     y_pred = hlp.predict_labels(w,x_te)
 
     y_pred = hlp.changeYfromBinary(y_pred)
-    hlp.create_csv_submission(ids_te,y_pred,'../data/submRomain.csv')
+    hlp.create_csv_submission(ids_te,y_pred,'submission.csv')
 
 if __name__ == '__main__':
     main()

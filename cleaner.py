@@ -1,5 +1,5 @@
 import numpy as np
-import Helpers.helpers as helper
+import helpers as helper
 
 def final_clean_data():
     """ Clean the x and y from the training and test data
@@ -10,8 +10,8 @@ def final_clean_data():
     Normalize the data
     Return all treated data and the ids of the test
     """
-    y,x, ids = helper.load_csv_data('../data/train.csv', False)
-    y_te, x_te, ids_te = helper.load_csv_data('../data/test.csv', False)
+    y,x, ids = helper.load_csv_data('train.csv', False)
+    y_te, x_te, ids_te = helper.load_csv_data('test.csv', False)
 
     good_columns = select_bad_features(x)
     x = x[:,good_columns]
