@@ -2,18 +2,20 @@
 
 Using machine learning techniques viewed in class to classify particules
 
-## Recreate the final submission results:
+## Functionalities
+
+### Recreate the final submission results:
 
 - In a shell go in the directory Project_ML
 - Run `python3 run.py`
 - The file `submission.csv` will be created in the Project_ML directory
 
-## Change the data
+### Change the data sets
 You have the choice between 2 alternatives to use another set of data to test our methods:
 - Save them under train.csv and test.csv in the root directory Project_ML
-- Open cleaner.py with your editor, change 'train.csv' and 'test.csv' to the name of your 2 data sets
+- Open cleaner.py with your editor, change 'train.csv' and 'test.csv' to the names of your 2 data sets
 
-## Use one of the 6 implementations required:
+### Use one of the 6 implementations required:
 This will create the needed submission file (test_submission.csv) given by a specified implementation
 - Duplicate the file `tool_test_submission.py`
 - Open the new file in your editor (for example under 'my_new_file.py')
@@ -22,7 +24,7 @@ This will create the needed submission file (test_submission.csv) given by a spe
 - Save this new file
 - run `python3 my_new_file.py`
 
-## Test an implementation locally:
+### Test an implementation locally:
 This will give you a estimated accuracy and loss of a specified implementation by splitting the training data
 - Duplicate the file `tool_test_local.py`
 - Open the new file in your editor (for example under 'my_new_file.py')
@@ -31,16 +33,24 @@ This will give you a estimated accuracy and loss of a specified implementation b
 - Save this new file
 - run `python3 my_new_file.py`
 
+## Methods :
 
-## `cleaner.py`:
+### `cleaner.py`:
 
 Contains all methods that we used or tried to use to clean the data
 - `fillMissingValuesMeansWithY`
 - `fillMissingValuesMeansWOY`
 - `fillMissingValuesMediansWithY`
 - `fillMissingValuesMediansWOY`
+- `normalize_input`
+- `select_bad_samples`
+- `filter_bad_samples`
+- `select_bad_features`
+- `outliersToMedian`
+- `remove_unused_features`
+- `computeCorrelation`
 
-## `helpers.py`:
+### `helpers.py`:
 
 Contains the sub methods that we used in `cleaner.py` and `implementations.py` (including the given ones),
 - `load_csv_data`
@@ -52,7 +62,8 @@ Contains the sub methods that we used in `cleaner.py` and `implementations.py` (
 - `toDeg` and `addConstant`
 - `build_poly`
 
-## `implementations.py`:
+### `implementations.py`:
+
 Contains the 6 required implementations and some others that we tried:
 - `least_squares_GD`
 - `least_squares_SGD`
