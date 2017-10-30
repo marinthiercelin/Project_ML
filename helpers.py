@@ -103,3 +103,100 @@ def build_poly(x, degree):
     x2 = toDeg(x,degree)
     x3 = addConstant(x2)
     return x3
+
+def compute_gradient(y, tx, w):
+    """Compute the gradient."""
+    N = y.shape[0]
+    e = y - np.dot(tx,w)
+    return (-1.0*(np.dot(tx.T,e)))/N
+
+def batch_iter(y, tx, batch_size, seed, num_batches=1, shuffle=True):
+    """Generate a minibatch iterator for a dataset.
+
+    Takes as input two iterables (here the output desired values 'y' and the input data 'tx')
+    Outputs an iterator which gives mini-batches of `batch_size` matching elements from `y` and `tx`.
+    Data can be randomly shuffled to avoid ordering in the original data messing with the randomness of the minibatches.
+    Example of use :
+    for minibatch_y, minibatch_tx in batch_iter(y, tx, 32):
+        <DO-SOMETHING>
+    """
+    data_size = len(y)
+
+    if shuffle:
+        np.random.seed(seed)
+        shuffle_indices = np.random.permutation(np.arange(data_size))
+        shuffled_y = y[shuffle_indices]
+        shuffled_tx = tx[shuffle_indices]
+    else:
+        shuffled_y = y
+        shuffled_tx = tx
+    for batch_num in range(num_batches):
+        start_index = batch_num * batch_size
+        end_index = min((batch_num + 1) * batch_size, data_size)
+        if start_index != end_index:
+            yield shuffled_y[start_index:end_index], shuffled_tx[start_index:end_index]
+
+#loss functions
+def compute_mse(y, tx, w):
+    """Compute the loss with the mse."""
+    e = y - tx.dot(w)
+    mse = e.dot(e) / (2 * len(e))
+    return mse
+
+def compute_mae(y, tx, w):
+    """Calculate the loss.
+
+    You can calculate the loss using mse or mae.
+    """
+    e = y - np.dot(tx,w)
+    e = np.absolute(e)
+    N = y.shape[0]
+    return e.sum()/(N*1.0)
+
+#used to have train and test set
+def split_data(x, y, ratio, seed=1):
+    """Split the data x and y with a given ratio.
+
+    split the dataset based on the split ratio. If ratio is 0.8
+    you will have 80% of your data set dedicated to training
+    and the rest dedicated to testing
+    """
+    np.random.seed(seed)
+    ind = list(range(y.shape[0]))
+    np.random.shuffle(ind)
+    x_shuffled = x[ind]
+    y_shuffled = y[ind]
+    limit = int(np.floor(y.shape[0]*ratio))
+    return x_shuffled[:limit],y_shuffled[:limit],x_shuffled[limit:],y_shuffled[limit:]
+
+#for logistic regression
+def sigmoid(t):
+    """Apply sigmoid function on t."""
+    exp_inv = np.exp(-1.0*t)
+    return np.divide(1,1+exp_inv)
+
+# regular regression
+def calculate_loss(y, tx, w):
+    """Compute the cost by negative log likelihood."""
+    fx_list = np.dot(tx,w)
+    fx_trans_1 = np.logaddexp(0,fx_list)
+    fx_trans_2 = np.multiply(y,fx_list)
+    res = fx_trans_1 - fx_trans_2
+    return res.sum()
+
+
+def calculate_gradient(y, tx, w):
+    """Compute the gradient of loss."""
+    fx_sigma = sigmoid(np.dot(tx,w))
+    mul = fx_sigma - y
+    return np.dot(tx.T,mul)
+
+
+#regularized logistic regression
+def reg_calculate_loss(y, tx, lambda_, w):
+    """Compute the cost by negative log likelihood."""
+    return calculate_loss(y,tx,w) + (lambda_/2.0)*np.dot(w.T,w)
+
+def reg_calculate_gradient(y, tx, lambda_, w):
+    """Compute the gradient of loss."""
+    return calculate_gradient(y,tx,w) + (lambda_)*w
