@@ -24,18 +24,6 @@ def load_csv_data(data_path, sub_sample=False):
 
     return yb, input_data, ids
 
-def save_clean_data(clean_x, clean_y, path_of_x, path_of_y):
-    """saves the clean data to the file system, pass the last '/' as argument"""
-    np.save(path_of_x, clean_x)
-    np.save(path_of_y, clean_y)
-
-def load_clean_data(path_of_x, path_of_y):
-    """loads the clean data as x, y, pass the last '/' as argument"""
-    clean_x = np.load(path_of_x)
-    clean_y = np.load(path_of_y)
-
-    return clean_x, clean_y
-
 def changeYtoBinary(y):
     """Map all -1 in Y to 0 and keep the other at 1."""
     res = np.array(y)
@@ -165,12 +153,6 @@ def split_data(x, y, ratio, seed=1):
     y_shuffled = y[ind]
     limit = int(np.floor(y.shape[0]*ratio))
     return x_shuffled[:limit],y_shuffled[:limit],x_shuffled[limit:],y_shuffled[limit:]
-
-#for logistic regression
-def sigmoid(t):
-    """Apply sigmoid function on t."""
-    exp_inv = np.exp(-1.0*t)
-    return np.divide(1,1+exp_inv)
 
 # regular regression
 def calculate_loss(y, tx, w):

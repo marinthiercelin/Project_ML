@@ -107,20 +107,11 @@ def fillMissingValuesMediansWOY(tx):
         x[:,i][np.where(x[:,i] == -999)] = med
     return x
 
-def addConstant(x):
-    """Add the constant 1 in front of all sample"""
-    x = np.c_[np.ones((x.shape[0], 1)), x]
-    return x
-
-
 def normalize_input(x):
     """Normalize the data x by substracting the mean and deviding by his variance."""
     means = np.mean(x, 0)
     stds = np.std(x, 0)
     return (x - means)/stds
-
-
-
 
 def select_bad_samples(x, freedom=0.2):
     """finds the indices of the samples that have a percentage

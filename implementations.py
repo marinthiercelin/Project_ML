@@ -147,4 +147,4 @@ def full_cross_validation(x,y):
     mean_w = sum_w/(1.0*k_fold)
     mean_error_tr = sum_tr/(1.0*k_fold)
     mean_error_te = sum_te/(1.0*k_fold)
-    return mean_w
+    return mean_error_te, mean_w
