@@ -105,7 +105,7 @@ def build_poly(x, degree):
     return x3
 
 def compute_gradient(y, tx, w):
-    """Compute the gradient."""
+    """Compute the gradient for the mse cost function"""
     N = y.shape[0]
     e = y - np.dot(tx,w)
     return (-1.0*(np.dot(tx.T,e)))/N
@@ -144,10 +144,7 @@ def compute_mse(y, tx, w):
     return mse
 
 def compute_mae(y, tx, w):
-    """Calculate the loss.
-
-    You can calculate the loss using mse or mae.
-    """
+    """Calculate the loss with the mae."""
     e = y - np.dot(tx,w)
     e = np.absolute(e)
     N = y.shape[0]
@@ -186,7 +183,8 @@ def calculate_loss(y, tx, w):
 
 
 def calculate_gradient(y, tx, w):
-    """Compute the gradient of loss."""
+    """Compute the gradient for the negative log likelihood
+    cost function of the logistic regression"""
     fx_sigma = sigmoid(np.dot(tx,w))
     mul = fx_sigma - y
     return np.dot(tx.T,mul)
@@ -194,9 +192,11 @@ def calculate_gradient(y, tx, w):
 
 #regularized logistic regression
 def reg_calculate_loss(y, tx, lambda_, w):
-    """Compute the cost by negative log likelihood."""
+    """Compute the cost by negative log likelihood.
+    With a regularization bias"""
     return calculate_loss(y,tx,w) + (lambda_/2.0)*np.dot(w.T,w)
 
 def reg_calculate_gradient(y, tx, lambda_, w):
-    """Compute the gradient of loss."""
+    """Compute the gradient of the logistic regression cost function.
+    With a regularization bias"""
     return calculate_gradient(y,tx,w) + (lambda_)*w
