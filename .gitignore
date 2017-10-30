@@ -1,5 +1,6 @@
 #perso file
 
+*.csv
 /firstProject/data/*.csv
 /firstProject/data/Figures/
 /firstProject/data/*
