@@ -56,7 +56,6 @@ def logistic_regression_step(y, tx, w, gamma):
     Return the loss and the updated w.
     """
     grad = calculate_gradient(y,tx,w)
-    print("grad",grad)
     w = w - gamma*grad
     return w
 
@@ -65,7 +64,6 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
     w = initial_w
     for n_iter in range(max_iters):
         w = logistic_regression_step(y,tx,w,gamma)
-        print("w",w)
     loss = calculate_loss(y,tx,w)
     return loss, w
 
@@ -94,10 +92,6 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     w = initial_w
     for n_iter in range(max_iters):
         w = reg_logistic_regression_step(y,tx,lambda_,w,gamma)
-        """if(n_iter % (max_iters/10) == 0):
-            loss = reg_calculate_loss(y, tx, lambda_, w)
-            print(n_iter," loss ",loss)
-            print(n_iter," w ", w)"""
 
     loss = reg_calculate_loss(y, tx, lambda_, w)
     return loss, w
