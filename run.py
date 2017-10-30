@@ -4,6 +4,13 @@ import implementations as imp
 import numpy as np
 
 def main():
+    """Makes the predictions on the test data.
+
+    First, we load the train and test data, clean them.
+    Second, we train the model using cross validation.
+    Third, we prepare the test sample matrix.
+
+    Lastly, we predict the labels for the test data and create a csv submission"""
     x,y, x_test, y_test, ids_te = cl.final_clean_data()
 
     w = imp.full_cross_validation(x,y)
