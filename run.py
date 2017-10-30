@@ -13,7 +13,7 @@ def main():
     Lastly, we predict the labels for the test data and create a csv submission"""
     x,y, x_test, y_test, ids_te = cl.final_clean_data()
 
-    w = imp.full_cross_validation(x,y)
+    loss, w = imp.full_cross_validation(x,y)
 
     x_te = hlp.build_poly(x_test, 5)
     y_pred = hlp.predict_labels(w,x_te)
