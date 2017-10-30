@@ -1,5 +1,5 @@
 import numpy as np
-import Helpers.helpers as hlp
+import helpers as hlp
 
 def compute_gradient(y, tx, w):
     """Compute the gradient."""
