@@ -1,6 +1,8 @@
 # Machine Learning Project on Higgs boson
 
-Using machine learning techniques viewed in class to classify particules
+Using machine learning techniques viewed in class to classify particules.
+The documentation to any method can be found in the corresponding file accordingly to PEP 257.
+You can also access it though a python2/3 shell after importing it using `help(file.function)`.
 
 ## Functionalities
 
