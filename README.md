@@ -9,14 +9,13 @@ Using machine learning techniques viewed in class to classify particules
 - The file `submission.csv` will be created in the Project_ML directory
 
 ## Use one of the 6 implementations required:
-
+This will create the needed submission file (test_submission.csv) given by a specified implementation
 - Duplicate the file `tool_test.py`
 - Open the new file in your editor (for example under 'my_new_file.py')
 - Replace the commented part 1 by the parameters that you will need
 - Replace the commented part 2 by the function from implementation that you want to test
 - Save this new file
 - run `python3 my_new_file.py`
-This will create the needed submission file (test_submission.csv)
 
 
 ## `cleaner.py`:
