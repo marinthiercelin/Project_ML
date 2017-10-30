@@ -199,14 +199,14 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
             loss = reg_calculate_loss(y, tx, lambda_, w)
             print(n_iter," loss ",loss)
             print(n_iter," w ", w)"""
-        print("w:", np.mean(w))
+        # print("w:", np.mean(w))
 
 
     # print("w.shape", w.shape)
     # loss = reg_calculate_loss(y, tx, lambda_, w)
-    loss = calculate_loss(y, tx, w)
-    # loss = 0
-    print("loss:", loss)
+    # loss = calculate_loss(y, tx, w)
+    loss = 0
+    # print("loss:", loss)
     return loss, w
 
 def reg_logistic_regression_sgd(y, tx, lambda_, initial_w, batch_size, max_iters, gamma, seed = 1):
@@ -233,6 +233,7 @@ def one_cross_validation(y, x, k_indices, k, lambda_):
     # ridge regression
     # ***************************************************
     loss,w = ridge_regression(y_train,x_train,lambda_)
+    # loss, w = reg_logistic_regression(y=y_train, tx=x_train, lambda_=lambda_, initial_w=np.zeros((x_train.shape[1], 1)), max_iters=500, gamma=.00008)
     # ***************************************************
     # calculate the loss for train and test data
     # ***************************************************
